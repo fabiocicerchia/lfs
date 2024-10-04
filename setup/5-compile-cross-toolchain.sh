@@ -1,16 +1,14 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter04/settingenvironment.html
 
-source .env
+set -e
 
-su - lfs
-source ~/.bash_profile
-
-cd /mnt/lfs/sources/
+cd $LFS/sources/
 
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter05/binutils-pass1.html
 tar xvf binutils*.xz
-cd binutils*
+cd $(find $PWD -maxdepth 1 -name "binutils-*" -type d)
+
 mkdir -v build
 cd       build
 ../configure --prefix=$LFS/tools \
@@ -24,10 +22,10 @@ cd       build
 make
 make install
 
-cd ../..
+cd $LFS/sources/
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter05/gcc-pass1.html
 tar xvf gcc*.xz
-cd gcc*
+cd $(find $PWD -maxdepth 1 -name "gcc-*" -type d)
 
 tar -xf ../mpfr-4.2.1.tar.xz
 mv -v mpfr-4.2.1 mpfr
@@ -74,20 +72,20 @@ cd ..
 cat gcc/limitx.h gcc/glimits.h gcc/limity.h > \
   `dirname $($LFS_TGT-gcc -print-libgcc-file-name)`/include/limits.h
 
-cd ..
+cd /mnt/lfs/sources/
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter05/linux-headers.html
 tar xvf linux*.xz
-cd linux*
+cd $(find $PWD -maxdepth 1 -name "linux-*" -type d)
 
 make mrproper
 make headers
 find usr/include -type f ! -name '*.h' -delete
 cp -rv usr/include $LFS/usr
 
-cd ..
+cd $LFS/sources/
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter05/glibc.html
 tar xvf glibc*.xz
-cd glibc*
+cd $(find $PWD -maxdepth 1 -name "glibc-*" -type d)
 
 case $(uname -m) in
     i?86)   ln -sfv ld-linux.so.2 $LFS/lib/ld-lsb.so.3
@@ -121,9 +119,9 @@ echo 'int main(){}' | $LFS_TGT-gcc -xc -
 readelf -l a.out | grep ld-linux
 rm -v a.out
 
-cd ../..
+cd $LFS/sources/
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter05/gcc-libstdc++.html
-cd gcc*
+cd $(find $PWD -maxdepth 1 -name "gcc-*" -type d)
 rm -rf build
 
 mkdir -v build

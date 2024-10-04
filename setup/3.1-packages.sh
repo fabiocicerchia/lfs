@@ -1,12 +1,10 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter03/introduction.html
 
-LFS=. # CUSTOM
+set -e
+
 mkdir -v $LFS/sources
 chmod -v a+wt $LFS/sources
-
-source .env
-ln -s $PWD/sources $LFS/ # CUSTOM
 
 wget https://www.linuxfromscratch.org/lfs/view/stable/wget-list-sysv -O wget-list-sysv
 wget --input-file=wget-list-sysv --continue --directory-prefix=$LFS/sources
