@@ -1,12 +1,12 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter04/addinguser.html
 
-source .env
+set -e
 
 groupadd lfs
 useradd -s /bin/bash -g lfs -m -k /dev/null lfs
 
-# passwd lfs
+# passwd lfs # TODO
 
 chown -v lfs $LFS/{usr{,/*},lib,var,etc,bin,sbin,tools}
 case $(uname -m) in

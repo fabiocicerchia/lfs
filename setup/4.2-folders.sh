@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter04/creatingminlayout.html
 
-source .env
+set -e
 
 mkdir -pv $LFS/{etc,var} $LFS/usr/{bin,lib,sbin}
 

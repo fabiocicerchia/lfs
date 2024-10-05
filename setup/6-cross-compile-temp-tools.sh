@@ -1,15 +1,12 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-source .env
-
-su - lfs
-source ~/.bash_profile
+set -e
 
 cd /mnt/lfs/sources/
 
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter06/m4.html
 tar xvf m4*.xz
-cd m4*
+cd $(find $PWD -maxdepth 1 -name "m4-*" -type d)
 
 ./configure --prefix=/usr   \
             --host=$LFS_TGT \
@@ -18,10 +15,10 @@ cd m4*
 make
 make DESTDIR=$LFS install
 
-cd ..
+cd /mnt/lfs/sources/
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter06/ncurses.html
-tar xvf ncurses*.xz
-cd ncurses*
+tar xvf ncurses*.gz
+cd $(find $PWD -maxdepth 1 -name "ncurses-*" -type d)
 
 sed -i s/mawk// configure
 mkdir build
@@ -50,8 +47,8 @@ sed -e 's/^#if.*XOPEN.*$/#if 1/' \
 
 cd ..
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter06/bash.html
-tar xvf bash*.xz
-cd bash*
+tar xvf bash*.gz
+cd $(find $PWD -maxdepth 1 -name "bash-*" -type d)
 
 ./configure --prefix=/usr                      \
             --build=$(sh support/config.guess) \
@@ -62,10 +59,10 @@ make
 make DESTDIR=$LFS install
 ln -sv bash $LFS/bin/sh
 
-cd ..
+cd /mnt/lfs/sources/
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter06/coreutils.html
 tar xvf coreutils*.xz
-cd coreutils*
+cd $(find $PWD -maxdepth 1 -name "coreutils-*" -type d)
 
 ./configure --prefix=/usr                     \
             --host=$LFS_TGT                   \
@@ -84,7 +81,7 @@ sed -i 's/"1"/"8"/'                    $LFS/usr/share/man/man8/chroot.8
 cd ..
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter06/diffutils.html
 tar xvf diffutils*.xz
-cd diffutils*
+cd $(find $PWD -maxdepth 1 -name "diffutils-*" -type d)
 
 ./configure --prefix=/usr   \
             --host=$LFS_TGT \
@@ -93,10 +90,10 @@ cd diffutils*
 make
 make DESTDIR=$LFS install
 
-cd ..
+cd /mnt/lfs/sources/
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter06/file.html
-tar xvf file*.xz
-cd file*
+tar xvf file*.gz
+cd $(find $PWD -maxdepth 1 -name "file-*" -type d)
 
 mkdir build
 pushd build
@@ -113,10 +110,10 @@ make DESTDIR=$LFS install
 
 rm -v $LFS/usr/lib/libmagic.la
 
-cd ..
+cd /mnt/lfs/sources/
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter06/findutils.html
 tar xvf findutils*.xz
-cd findutils*
+cd $(find $PWD -maxdepth 1 -name "findutils-*" -type d)
 
 ./configure --prefix=/usr                   \
             --localstatedir=/var/lib/locate \
@@ -126,10 +123,10 @@ cd findutils*
 make
 make DESTDIR=$LFS install
 
-cd ..
+cd /mnt/lfs/sources/
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter06/gawk.html
 tar xvf gawk*.xz
-cd gawk*
+cd $(find $PWD -maxdepth 1 -name "gawk-*" -type d)
 
 sed -i 's/extras//' Makefile.in
 
@@ -140,10 +137,10 @@ sed -i 's/extras//' Makefile.in
 make
 make DESTDIR=$LFS install
 
-cd ..
+cd /mnt/lfs/sources/
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter06/grep.html
 tar xvf grep*.xz
-cd grep*
+cd $(find $PWD -maxdepth 1 -name "grep-*" -type d)
 
 ./configure --prefix=/usr   \
             --host=$LFS_TGT \
@@ -152,20 +149,20 @@ cd grep*
 make
 make DESTDIR=$LFS install
 
-cd ..
+cd /mnt/lfs/sources/
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter06/gzip.html
 tar xvf gzip*.xz
-cd gzip*
+cd $(find $PWD -maxdepth 1 -name "gzip-*" -type d)
 
 ./configure --prefix=/usr --host=$LFS_TGT
 
 make
 make DESTDIR=$LFS install
 
-cd ..
+cd /mnt/lfs/sources/
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter06/make.html
-tar xvf make*.xz
-cd make*
+tar xvf make*.gz
+cd $(find $PWD -maxdepth 1 -name "make-*" -type d)
 
 ./configure --prefix=/usr   \
             --without-guile \
@@ -175,10 +172,10 @@ cd make*
 make
 make DESTDIR=$LFS install
 
-cd ..
+cd /mnt/lfs/sources/
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter06/patch.html
 tar xvf patch*.xz
-cd patch*
+cd $(find $PWD -maxdepth 1 -name "patch-*" -type d)
 
 ./configure --prefix=/usr   \
             --host=$LFS_TGT \
@@ -187,10 +184,10 @@ cd patch*
 make
 make DESTDIR=$LFS install
 
-cd ..
+cd /mnt/lfs/sources/
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter06/sed.html
 tar xvf sed*.xz
-cd sed*
+cd $(find $PWD -maxdepth 1 -name "sed-*" -type d)
 
 ./configure --prefix=/usr   \
             --host=$LFS_TGT \
@@ -199,10 +196,10 @@ cd sed*
 make
 make DESTDIR=$LFS install
 
-cd ..
+cd /mnt/lfs/sources/
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter06/tar.html
 tar xvf tar*.xz
-cd tar*
+cd $(find $PWD -maxdepth 1 -name "tar-*" -type d)
 
 ./configure --prefix=/usr                     \
             --host=$LFS_TGT                   \
@@ -211,10 +208,10 @@ cd tar*
 make
 make DESTDIR=$LFS install
 
-cd ..
+cd /mnt/lfs/sources/
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter06/xz.html
 tar xvf xz*.xz
-cd xz*
+cd $(find $PWD -maxdepth 1 -name "xz-*" -type d)
 
 ./configure --prefix=/usr                     \
             --host=$LFS_TGT                   \
@@ -227,9 +224,9 @@ make DESTDIR=$LFS install
 
 rm -v $LFS/usr/lib/liblzma.la
 
-cd ..
+cd /mnt/lfs/sources/
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter06/binutils-pass2.html
-cd binutil*
+cd $(find $PWD -maxdepth 1 -name "binutils-*" -type d)
 rm -rf build
 
 sed '6009s/$add_dir//' -i ltmain.sh
@@ -254,9 +251,9 @@ make DESTDIR=$LFS install
 
 rm -v $LFS/usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes,sframe}.{a,la}
 
-cd ../..
+cd /mnt/lfs/sources/
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter06/gcc-pass2.html
-cd gcc*
+cd $(find $PWD -maxdepth 1 -name "gcc-*" -type d)
 
 rm -rf build mpfr gmp mpc
 

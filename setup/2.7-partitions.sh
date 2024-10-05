@@ -1,7 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter02/mounting.html
 
-source .env
+set -e
 
 mkdir -pv $LFS
-#mount -v -t ext4 /dev/<xxx> $LFS
+
+# mount -v -t ext4 /dev/<xxx> $LFS
