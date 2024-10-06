@@ -79,3 +79,10 @@ chroot "$LFS" /usr/bin/env -i   \
     TESTSUITEFLAGS="-j$(nproc)" \
     /bin/bash --login
 ```
+
+## Additional Readings
+
+- [vi. Rationale for Packages in the Book](https://www.linuxfromscratch.org/lfs/view/stable/prologue/package-choices.html)
+- [4.5. About SBUs](https://linuxfromscratch.org/lfs/view/stable/chapter04/aboutsbus.html)
+- [8.2. Package Management](https://linuxfromscratch.org/lfs/view/stable/chapter08/pkgmgt.html)
+- [8.83. About Debugging Symbols](https://www.linuxfromscratch.org/lfs/view/stable/chapter08/aboutdebug.html)
