@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# drop all extracted tools
+# TODO: FIX
+# find /sources -type d -maxdepth 2 | xargs rm -rf;
+
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter08/man-pages.html
 TOOL=man-pages; tar xvf "$LFS/sources/$TOOL"* -C $LFS/sources/ && cd $(find $LFS/sources -maxdepth 1 -name "$TOOL-*" -type d)
 
@@ -11,12 +15,12 @@ TOOL=iana-etc; tar xvf "$LFS/sources/$TOOL"* -C $LFS/sources/ && cd $(find $LFS/
 cp services protocols /etc
 
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter08/glibc.html
-TOOL=glibc; tar xvf "$LFS/sources/$TOOL"* -C $LFS/sources/ && cd $(find $LFS/sources -maxdepth 1 -name "$TOOL-*" -type d)
+TOOL=glibc; tar xvf "$LFS/sources/$TOOL"*.xz -C $LFS/sources/ && cd $(find $LFS/sources -maxdepth 1 -name "$TOOL-*" -type d)
 
 patch -Np1 -i ../glibc-2.40-fhs-1.patch
 
 mkdir -v build
-cd build
+cd       build
 
 echo "rootsbindir=/usr/sbin" > configparms
 
@@ -28,7 +32,13 @@ echo "rootsbindir=/usr/sbin" > configparms
              libc_cv_slibdir=/usr/lib
 
 make
+# TODO:
+# cc1plus: fatal error: /dev/fd/63: No such file or directory
+# https://askubuntu.com/questions/1086617/dev-fd-63-no-such-file-or-directory
 make check
+
+touch /etc/ld.so.conf
+sed '/test-installation/s@$(PERL)@echo not running@' -i ../Makefile
 make install
 
 sed '/RTLDLIST=/s@/usr@@g' -i /usr/bin/ldd
@@ -136,7 +146,7 @@ make install
 rm -fv /usr/lib/libz.a
 
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter08/bzip2.html
-TOOL=bzip2; tar xvf "$LFS/sources/$TOOL"* -C $LFS/sources/ && cd $(find $LFS/sources -maxdepth 1 -name "$TOOL-*" -type d)
+TOOL=bzip2; tar xvf "$LFS/sources/$TOOL"*.gz -C $LFS/sources/ && cd $(find $LFS/sources -maxdepth 1 -name "$TOOL-*" -type d)
 
 patch -Np1 -i ../bzip2-1.0.8-install_docs-1.patch
 sed -i 's@\(ln -s -f \)$(PREFIX)/bin/@\1@' Makefile
@@ -242,7 +252,7 @@ ln -sv flex   /usr/bin/lex
 ln -sv flex.1 /usr/share/man/man1/lex.1
 
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter08/tcl.html
-TOOL=tcl; tar xvf "$LFS/sources/$TOOL"* -C $LFS/sources/ && cd $(find $LFS/sources -maxdepth 1 -name "$TOOL-*" -type d)
+TOOL=tcl; tar xvf "$LFS/sources/$TOOL"*src* -C $LFS/sources/ && cd $(find $LFS/sources -maxdepth 1 -name "$TOOL*" -type d)
 
 SRCDIR=$(pwd)
 cd unix

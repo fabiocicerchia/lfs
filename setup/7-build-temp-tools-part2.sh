@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
+<<<<<<< HEAD
 set -ex
+=======
+set -e
+>>>>>>> c7ece91 (fixing notes + progressing with step 8 (checkpoint: tcl))
 
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter07/creatingdirs.html
 mkdir -pv /{boot,home,mnt,opt,srv}

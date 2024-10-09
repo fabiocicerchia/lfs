@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
+<<<<<<< HEAD
 set -ex
+=======
+set -e
+>>>>>>> c7ece91 (fixing notes + progressing with step 8 (checkpoint: tcl))
 
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter07/changingowner.html
 chown --from lfs -R root:root $LFS/{usr,lib,var,etc,bin,sbin,tools}

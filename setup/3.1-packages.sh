@@ -3,7 +3,7 @@
 
 set -ex
 
-mkdir -v $LFS/sources
+[ ! -d $LFS/sources ] && mkdir -v $LFS/sources
 chmod -v a+wt $LFS/sources
 
 wget https://www.linuxfromscratch.org/lfs/view/stable/wget-list-sysv -O wget-list-sysv

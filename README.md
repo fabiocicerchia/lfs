@@ -17,9 +17,12 @@
 
 # configure vars
 export $(cat /home/lfs/setup/.env | tr -d ' ' | xargs -L 1) && echo $LFS
+```
 
+ℹ️ NOTE: jump to [RESTORE](#restoring-previous-build) if you've run the following and took a backup.
+
+```bash
 # LFS commands
-# NOTE: jump to RESTORE if you've run the following and took a backup
 /home/lfs/setup/2.2-version-check.sh
 /home/lfs/setup/2.7-partitions.sh
 /home/lfs/setup/3.1-packages.sh
@@ -58,16 +61,24 @@ docker cp lfs:/root/lfs-temp-tools-12.2.tar.xz backup
 
 ### Restoring previous build
 
-On your host, start the restore process:
+Inside the container, start the restore process:
 
 ```bash
-docker run --privileged -u root -v $PWD:/home/lfs --name lfs -it ubuntu:latest bash
-source /home/lfs/.bashrc
-mkdir $LFS
-
-# install required deps
-/home/lfs/setup/1-install-deps.sh
+source /home/lfs/.bashrc && echo $LFS
 HOME=/home/lfs/backup /home/lfs/setup/7.13-restore.sh
+
+# mount sys dirs (see setup/7-build-temp-tools.sh)
+# https://www.linuxfromscratch.org/lfs/view/stable/chapter07/kernfs.html
+mount -v --bind /dev $LFS/dev
+mount -vt devpts devpts -o gid=5,mode=0620 $LFS/dev/pts
+mount -vt proc proc $LFS/proc
+mount -vt sysfs sysfs $LFS/sys
+mount -vt tmpfs tmpfs $LFS/run
+if [ -h $LFS/dev/shm ]; then
+  install -v -d -m 1777 $LFS$(realpath /dev/shm)
+else
+  mount -vt tmpfs -o nosuid,nodev tmpfs $LFS/dev/shm
+fi
 ```
 
 ## 4. Build LFS System
