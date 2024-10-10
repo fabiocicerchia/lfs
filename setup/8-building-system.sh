@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # drop all extracted tools
-# TODO: FIX
-# find /sources -type d -maxdepth 2 | xargs rm -rf;
+find /sources -type d -mindepth 1 -maxdepth 1 | xargs rm -rf;
 
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter08/man-pages.html
 TOOL=man-pages; tar xvf "$LFS/sources/$TOOL"* -C $LFS/sources/ && cd $(find $LFS/sources -maxdepth 1 -name "$TOOL-*" -type d)
