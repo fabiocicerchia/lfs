@@ -92,8 +92,6 @@ chroot "$LFS" /usr/bin/env -i   \
     MAKEFLAGS="-j$(nproc)"      \
     TESTSUITEFLAGS="-j$(nproc)" \
     /bin/bash --login
-# TODO: check if needed after restore
-export PATH=/usr/bin:/usr/sbin
 ./setup/8-building-system.sh
 ```
 

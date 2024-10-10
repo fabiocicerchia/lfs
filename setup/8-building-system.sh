@@ -295,7 +295,7 @@ mkdir -v -p /usr/share/doc/tcl-8.6.14
 cp -v -r ./html/* /usr/share/doc/tcl-8.6.14
 
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter08/expect.html
-TOOL=expect; tar xvf "$LFS/sources/$TOOL"* -C $LFS/sources/ && cd $(find $LFS/sources -maxdepth 1 -name "$TOOL-*" -type d)
+TOOL=expect; tar xvf "$LFS/sources/$TOOL"*.gz -C $LFS/sources/ && cd $(find $LFS/sources -maxdepth 1 -name "$TOOL-*" -type d)
 
 python3 -c 'from pty import spawn; spawn(["echo", "ok"])'
 patch -Np1 -i ../expect-5.45.4-gcc14-1.patch
@@ -677,7 +677,8 @@ EOF
 
 make install
 
-exec /usr/bin/bash --login
+# TODO: breaks flow/split sh
+# exec /usr/bin/bash --login
 
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter08/libtool.html
 TOOL=libtool; tar xvf "$LFS/sources/$TOOL"* -C $LFS/sources/ && cd $(find $LFS/sources -maxdepth 1 -name "$TOOL-*" -type d)
@@ -983,7 +984,7 @@ install -vDm644 data/shell-completions/bash/meson /usr/share/bash-completion/com
 install -vDm644 data/shell-completions/zsh/_meson /usr/share/zsh/site-functions/_meson
 
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter08/coreutils.html
-TOOL=coreutils; tar xvf "$LFS/sources/$TOOL"* -C $LFS/sources/ && cd $(find $LFS/sources -maxdepth 1 -name "$TOOL-*" -type d)
+TOOL=coreutils; tar xvf "$LFS/sources/$TOOL"*.xz -C $LFS/sources/ && cd $(find $LFS/sources -maxdepth 1 -name "$TOOL-*" -type d)
 
 patch -Np1 -i ../coreutils-9.5-i18n-2.patch
 
@@ -1115,7 +1116,7 @@ mkdir -pv             /usr/share/doc/iproute2-6.10.0
 cp -v COPYING README* /usr/share/doc/iproute2-6.10.0
 
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter08/kbd.html
-TOOL=kbd; tar xvf "$LFS/sources/$TOOL"* -C $LFS/sources/ && cd $(find $LFS/sources -maxdepth 1 -name "$TOOL-*" -type d)
+TOOL=kbd; tar xvf "$LFS/sources/$TOOL"*.xz -C $LFS/sources/ && cd $(find $LFS/sources -maxdepth 1 -name "$TOOL-*" -type d)
 
 patch -Np1 -i ../kbd-2.6.4-backspace-1.patch
 
@@ -1239,7 +1240,8 @@ endif
 " End /etc/vimrc
 EOF
 
-vim -c ':options'
+# TODO: this will break flow / split it
+# vim -c ':options'
 
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter08/markupsafe.html
 TOOL=markupsafe; tar xvf "$LFS/sources/$TOOL"* -C $LFS/sources/ && cd $(find $LFS/sources -maxdepth 1 -name "$TOOL-*" -type d)
@@ -1453,7 +1455,7 @@ secure_mode 2
 EOF
 
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter08/sysvinit.html
-TOOL=sysvinit; tar xvf "$LFS/sources/$TOOL"* -C $LFS/sources/ && cd $(find $LFS/sources -maxdepth 1 -name "$TOOL-*" -type d)
+TOOL=sysvinit; tar xvf "$LFS/sources/$TOOL"*.xz -C $LFS/sources/ && cd $(find $LFS/sources -maxdepth 1 -name "$TOOL-*" -type d)
 
 patch -Np1 -i ../sysvinit-3.10-consolidated-1.patch
 
@@ -1462,8 +1464,6 @@ make
 make install
 
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter08/stripping.html
-TOOL=stripping; tar xvf "$LFS/sources/$TOOL"* -C $LFS/sources/ && cd $(find $LFS/sources -maxdepth 1 -name "$TOOL-*" -type d)
-
 save_usrlib="$(cd /usr/lib; ls ld-linux*[^g])
              libc.so.6
              libthread_db.so.1
