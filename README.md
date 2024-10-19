@@ -12,23 +12,19 @@
 ℹ️ NOTE: jump to [RESTORE](#restoring-previous-build) if you've run the following and took a backup.
 
 ```bash
-# run the following commands inside the container
-cd /home/lfs
-
 # install required deps
-./setup/1-install-deps.sh
+/home/lfs/setup/1-install-deps.sh
 
 # configure vars
-export $(cat ./setup/.env | tr -d ' ' | xargs -L 1)
-echo $LFS
+export $(cat /home/lfs/setup/.env | tr -d ' ' | xargs -L 1) && echo $LFS
 
 # LFS commands
 # NOTE: jump to RESTORE if you've run the following and took a backup
-./setup/2.2-version-check.sh
-./setup/2.7-partitions.sh
-./setup/3.1-packages.sh
-./setup/4.2-folders.sh
-./setup/4.3-users.sh
+/home/lfs/setup/2.2-version-check.sh
+/home/lfs/setup/2.7-partitions.sh
+/home/lfs/setup/3.1-packages.sh
+/home/lfs/setup/4.2-folders.sh
+/home/lfs/setup/4.3-users.sh
 ```
 
 ## 3. Building the LFS Cross Toolchain and Temporary Tools
@@ -36,10 +32,15 @@ echo $LFS
 ```bash
 su - lfs
 source ~/.bash_profile
-./setup/5-compile-cross-toolchain.sh
-./setup/6-cross-compile-temp-tools.sh
+/mnt/lfs/setup/5-compile-cross-toolchain.sh
+/mnt/lfs/setup/6-cross-compile-temp-tools.sh
+# clean up space
+find sources -mindepth 1 -maxdepth 1 -type d -exec rm -rf {} \;
 exit # return to root
-./setup/7-build-temp-tools.sh
+cp -r $PWD/setup $LFS/
+/mnt/lfs/setup/7-build-temp-tools-part1.sh
+/setup/7-build-temp-tools-part2.sh
+/setup/7-build-temp-tools-part3.sh
 ```
 
 At this point you might want to take a backup:
@@ -72,16 +73,7 @@ HOME=/home/lfs/backup /home/lfs/setup/7.13-restore.sh
 ## 4. Build LFS System
 
 ```bash
-# add usr/sbin for missing chroot in PATH
-export PATH=$LFS/usr/sbin:$PATH
-chroot "$LFS" /usr/bin/env -i   \
-    HOME=/root                  \
-    TERM="$TERM"                \
-    PS1='(lfs chroot) \u:\w\$ ' \
-    PATH=/usr/bin:/usr/sbin     \
-    MAKEFLAGS="-j$(nproc)"      \
-    TESTSUITEFLAGS="-j$(nproc)" \
-    /bin/bash --login
+/setup/8-building-system.sh
 ```
 
 ## ToDos
