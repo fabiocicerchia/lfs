@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 
-<<<<<<< HEAD
 set -ex
-=======
-set -e
->>>>>>> c7ece91 (fixing notes + progressing with step 8 (checkpoint: tcl))
 
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter07/changingowner.html
 chown --from lfs -R root:root $LFS/{usr,lib,var,etc,bin,sbin,tools}
@@ -29,7 +25,7 @@ else
 fi
 
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter07/chroot.html
-chroot "$LFS" /usr/bin/env -i   \
+/usr/sbin/chroot "$LFS" /usr/bin/env -i   \
     HOME=/root                  \
     TERM="$TERM"                \
     PS1='(lfs chroot) \u:\w\$ ' \

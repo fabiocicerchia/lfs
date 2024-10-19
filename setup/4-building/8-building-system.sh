@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # drop all extracted tools
-find /sources -type d -mindepth 1 -maxdepth 1 | xargs rm -rf;
+find /sources -mindepth 1 -maxdepth 1 -type d -exec rm -rf {} \;
 
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter08/man-pages.html
 TOOL=man-pages; tar xvf "$LFS/sources/$TOOL"* -C $LFS/sources/ && cd $(find $LFS/sources -maxdepth 1 -name "$TOOL-*" -type d)
@@ -1042,6 +1042,7 @@ sed -i 's/extras//' Makefile.in
 make
 
 chown -R tester .
+# TODO: this freezes
 su tester -c "PATH=$PATH make check"
 
 rm -f /usr/bin/gawk-5.3.0
@@ -1209,6 +1210,7 @@ make
 
 chown -R tester .
 
+# TODO: this freezes
 su tester -c "TERM=xterm-256color LANG=en_US.UTF-8 make -j1 test" \
    &> vim-test.log
    

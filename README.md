@@ -3,8 +3,8 @@
 ## 0. Start Building Env
 
 ```bash
-# standup docker container
-./setup/0-virtual-env.sh
+# standup docker container & install required deps
+make init
 ```
 
 ## 2. Preparing for the Build
@@ -22,33 +22,22 @@ export $(cat /home/lfs/setup/.env | tr -d ' ' | xargs -L 1) && echo $LFS
 ℹ️ NOTE: jump to [RESTORE](#restoring-previous-build) if you've run the following and took a backup.
 
 ```bash
-# LFS commands
-/home/lfs/setup/2.2-version-check.sh
-/home/lfs/setup/2.7-partitions.sh
-/home/lfs/setup/3.1-packages.sh
-/home/lfs/setup/4.2-folders.sh
-/home/lfs/setup/4.3-users.sh
+make preparing
 ```
 
 ## 3. Building the LFS Cross Toolchain and Temporary Tools
 
 ```bash
+cd /home/lfs
 su - lfs
 source ~/.bash_profile
-/mnt/lfs/setup/5-compile-cross-toolchain.sh
-/mnt/lfs/setup/6-cross-compile-temp-tools.sh
-# clean up space
-find sources -mindepth 1 -maxdepth 1 -type d -exec rm -rf {} \;
-exit # return to root
-cp -r $PWD/setup $LFS/
-/mnt/lfs/setup/7-build-temp-tools-part1.sh
-/setup/7-build-temp-tools-part2.sh
-/setup/7-build-temp-tools-part3.sh
+make building-toolchain
 ```
 
 At this point you might want to take a backup:
 
 ```bash
+exit
 ./setup/7.13-backup.sh
 ```
 

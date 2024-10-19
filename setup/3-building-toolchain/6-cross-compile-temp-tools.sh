@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 
 set -ex
+<<<<<<< HEAD:setup/6-cross-compile-temp-tools.sh
 
+=======
+>>>>>>> 3c85942 (broken refactoring):setup/3-building-toolchain/6-cross-compile-temp-tools.sh
 cd /mnt/lfs/sources/
 
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter06/m4.html
