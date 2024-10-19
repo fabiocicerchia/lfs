@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter03/introduction.html
 
-set -e
+set -ex
 
 mkdir -v $LFS/sources
 chmod -v a+wt $LFS/sources

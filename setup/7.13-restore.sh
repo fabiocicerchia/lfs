@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+set -ex
 
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter07/cleanup.html
 

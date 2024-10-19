@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+set -ex
 
 export TZ="Etc/UTC"
 export DEBIAN_FRONTEND=noninteractive

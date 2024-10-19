@@ -2,8 +2,6 @@
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter02/hostreqs.html
 # A script to list version numbers of critical development tools
 
-set -e
-
 # If you have tools installed in other directories, adjust PATH here AND
 # in ~lfs/.bashrc (section 4.4) as well.
 

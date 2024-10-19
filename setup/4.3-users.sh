@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter04/addinguser.html
 
-set -e
+set -ex
 
 groupadd lfs
 useradd -s /bin/bash -g lfs -m -k /dev/null lfs

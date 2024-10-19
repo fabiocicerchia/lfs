@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter04/settingenvironment.html
 
-set -e
+set -ex
 
 cd $LFS/sources/
 
