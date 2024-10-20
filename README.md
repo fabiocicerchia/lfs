@@ -12,16 +12,8 @@ make init
 ℹ️ NOTE: jump to [RESTORE](#restoring-previous-build) if you've run the following and took a backup.
 
 ```bash
-# install required deps
-/home/lfs/setup/1-install-deps.sh
-
 # configure vars
 export $(cat /home/lfs/setup/.env | tr -d ' ' | xargs -L 1) && echo $LFS
-```
-
-ℹ️ NOTE: jump to [RESTORE](#restoring-previous-build) if you've run the following and took a backup.
-
-```bash
 make preparing
 ```
 

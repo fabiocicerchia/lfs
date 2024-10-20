@@ -1,17 +1,13 @@
 #!/usr/bin/env bash
 
 set -ex
-<<<<<<< HEAD:setup/7-build-temp-tools-part3.sh
 
 touch /var/log/{btmp,lastlog,faillog,wtmp}
 chgrp -v utmp /var/log/lastlog
 chmod -v 664  /var/log/lastlog
 chmod -v 600  /var/log/btmp
 
-=======
->>>>>>> 3c85942 (broken refactoring):setup/3-building-toolchain/7-build-temp-tools-part3.sh
 cd $LFS/sources
-
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter07/gettext.html
 tar xvf gettext*.xz
 cd $(find $PWD -maxdepth 1 -name "gettext-*" -type d)
@@ -102,8 +98,4 @@ make install
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter07/cleanup.html
 rm -rf /usr/share/{info,man,doc}/*
 find /usr/{lib,libexec} -name \*.la -delete
-<<<<<<< HEAD:setup/7-build-temp-tools-part3.sh
 rm -rf /tools
-=======
-rm -rf /tools
->>>>>>> 3c85942 (broken refactoring):setup/3-building-toolchain/7-build-temp-tools-part3.sh

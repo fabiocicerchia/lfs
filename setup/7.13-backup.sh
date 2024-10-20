@@ -2,7 +2,7 @@
 
 set -ex
 
-# https://www.linuxfromscratch.org/lfs/view/stable/chapter07/cleanup.html#!/usr/bin/env bash
+# https://www.linuxfromscratch.org/lfs/view/stable/chapter07/cleanup.html
 
 mountpoint -q $LFS/dev/shm && umount $LFS/dev/shm
 umount $LFS/dev/pts
