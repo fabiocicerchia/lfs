@@ -25,7 +25,7 @@ else
 fi
 
 # https://www.linuxfromscratch.org/lfs/view/stable/chapter07/chroot.html
-chroot "$LFS" /usr/bin/env -i   \
+/usr/sbin/chroot "$LFS" /usr/bin/env -i   \
     HOME=/root                  \
     TERM="$TERM"                \
     PS1='(lfs chroot) \u:\w\$ ' \

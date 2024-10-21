@@ -3,8 +3,8 @@
 ## 0. Start Building Env
 
 ```bash
-# standup docker container
-./setup/0-virtual-env.sh
+# standup docker container & install required deps
+make init
 ```
 
 ## 2. Preparing for the Build
@@ -12,40 +12,23 @@
 ℹ️ NOTE: jump to [RESTORE](#restoring-previous-build) if you've run the following and took a backup.
 
 ```bash
-# install required deps
-/home/lfs/setup/1-install-deps.sh
-
 # configure vars
 export $(cat /home/lfs/setup/.env | tr -d ' ' | xargs -L 1) && echo $LFS
-
-# LFS commands
-# NOTE: jump to RESTORE if you've run the following and took a backup
-/home/lfs/setup/2.2-version-check.sh
-/home/lfs/setup/2.7-partitions.sh
-/home/lfs/setup/3.1-packages.sh
-/home/lfs/setup/4.2-folders.sh
-/home/lfs/setup/4.3-users.sh
+make preparing
 ```
 
 ## 3. Building the LFS Cross Toolchain and Temporary Tools
 
 ```bash
-su - lfs
-source ~/.bash_profile
-/mnt/lfs/setup/5-compile-cross-toolchain.sh
-/mnt/lfs/setup/6-cross-compile-temp-tools.sh
-# clean up space
-find sources -mindepth 1 -maxdepth 1 -type d -exec rm -rf {} \;
-exit # return to root
-cp -r $PWD/setup $LFS/
-/mnt/lfs/setup/7-build-temp-tools-part1.sh
-/setup/7-build-temp-tools-part2.sh
-/setup/7-build-temp-tools-part3.sh
+make building-toolchain
+# From inside CHROOT
+make building-toolchain-chroot
 ```
 
 At this point you might want to take a backup:
 
 ```bash
+exit
 ./setup/7.13-backup.sh
 ```
 
@@ -58,22 +41,32 @@ docker cp lfs:/root/lfs-temp-tools-12.2.tar.xz backup
 
 ### Restoring previous build
 
-On your host, start the restore process:
+Inside the container, start the restore process:
 
 ```bash
-docker run --privileged -u root -v $PWD:/home/lfs --name lfs -it ubuntu:latest bash
-source /home/lfs/.bashrc
-mkdir $LFS
-
-# install required deps
-/home/lfs/setup/1-install-deps.sh
+source /home/lfs/.bashrc && echo $LFS
 HOME=/home/lfs/backup /home/lfs/setup/7.13-restore.sh
+
+# mount sys dirs (see setup/7-build-temp-tools.sh)
+# https://www.linuxfromscratch.org/lfs/view/stable/chapter07/kernfs.html
+mount -v --bind /dev $LFS/dev
+mount -vt devpts devpts -o gid=5,mode=0620 $LFS/dev/pts
+mount -vt proc proc $LFS/proc
+mount -vt sysfs sysfs $LFS/sys
+mount -vt tmpfs tmpfs $LFS/run
+if [ -h $LFS/dev/shm ]; then
+  install -v -d -m 1777 $LFS$(realpath /dev/shm)
+else
+  mount -vt tmpfs -o nosuid,nodev tmpfs $LFS/dev/shm
+fi
 ```
 
 ## 4. Build LFS System
 
+From inside CHROOT:
+
 ```bash
-/setup/8-building-system.sh
+make building-lfs
 ```
 
 ## ToDos
