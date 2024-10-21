@@ -20,10 +20,9 @@ make preparing
 ## 3. Building the LFS Cross Toolchain and Temporary Tools
 
 ```bash
-cd /home/lfs
-su - lfs
-source ~/.bash_profile
 make building-toolchain
+# From inside CHROOT
+make building-toolchain-chroot
 ```
 
 At this point you might want to take a backup:
@@ -64,8 +63,10 @@ fi
 
 ## 4. Build LFS System
 
+From inside CHROOT:
+
 ```bash
-/setup/8-building-system.sh
+make building-lfs
 ```
 
 ## ToDos

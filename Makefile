@@ -9,5 +9,11 @@ preparing:
 	docker exec --env-file $$PWD/setup/.env lfs /home/lfs/setup/2-preparing-build.sh
 
 building-toolchain:
-	/setup/3-building-toolchain.sh
-	/setup/4-building/8-building-system.sh
+	$$PWD/setup/3-building-toolchain.sh
+
+building-toolchain-chroot:
+	/setup/3-building-toolchain/7-build-temp-tools-part2.sh
+	/setup/3-building-toolchain/7-build-temp-tools-part3.sh
+
+building-lfs:
+	$$PWD/setup/4-building/8-building-system.sh
